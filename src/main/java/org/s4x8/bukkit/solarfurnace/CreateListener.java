@@ -16,7 +16,7 @@ public class CreateListener implements Listener {
 	
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
-		SolarFurnace solarFurnace = new SolarFurnace();
+		SolarFurnace solarFurnace = new SolarFurnace(plugin);
 		try {
 			solarFurnace.scan(event.getBlock());
 		} catch (InvalidSolarFurnaceException e) {

@@ -10,77 +10,61 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 
+import java.util.logging.Level;
+
 public class SolarFurnace {
+	private SFPlugin plugin;
 	private Block furnaceBlock;
-	private Block panelBlock;
 	
-	public SolarFurnace() {
+	public SolarFurnace(SFPlugin plugin) {
+		this.plugin = plugin;
 		furnaceBlock = null;
-		panelBlock = null;
 	};
 	
-	public SolarFurnace(Block furnaceBlock) throws InvalidSolarFurnaceException {
+	public SolarFurnace(SFPlugin plugin, Block furnaceBlock) throws InvalidSolarFurnaceException {
+		this.plugin = plugin;
 		this.furnaceBlock = furnaceBlock;
-		this.panelBlock = furnaceBlock.getRelative(BlockFace.UP);
-		checkBlocks();
+		check();
 	};
 	
 	public void scan(Block scanBlock) throws InvalidSolarFurnaceException {
-		if (isSolarPanel(scanBlock)) {
-			furnaceBlock = scanBlock.getRelative(BlockFace.DOWN);
-			panelBlock = scanBlock;
-		} else {
-			furnaceBlock = scanBlock;
-			panelBlock = scanBlock.getRelative(BlockFace.UP);
-		};
-		checkBlocks();
+		furnaceBlock = Material.DAYLIGHT_DETECTOR.equals(scanBlock.getType()) ? scanBlock.getRelative(BlockFace.DOWN) : scanBlock;
+		check();
 	};
 	
 	public boolean isValid() {
-		return isFurnace(furnaceBlock) && isSolarPanel(panelBlock);
+		if (furnaceBlock == null) return false;
+		if (furnaceBlock.getWorld().getEnvironment() != World.Environment.NORMAL) return false;
+		Material furnaceMaterial = furnaceBlock.getType();
+		if (!Material.BURNING_FURNACE.equals(furnaceMaterial) && !Material.FURNACE.equals(furnaceMaterial)) return false;
+		if (!Material.DAYLIGHT_DETECTOR.equals(furnaceBlock.getRelative(BlockFace.UP).getType())) return false;
+		return true;
 	};
 	
-	private boolean isFurnace(Block block) {
-		if (block == null) return false;
-		Material blockMaterial = block.getType();
-		return Material.BURNING_FURNACE.equals(blockMaterial) || Material.FURNACE.equals(blockMaterial);
-	};
-
-	private boolean isSolarPanel(Block block) {
-		if (block == null) return false;
-		return Material.DAYLIGHT_DETECTOR.equals(block.getType());
-	};
-	
-	private void checkBlocks() throws InvalidSolarFurnaceException {
+	private void check() throws InvalidSolarFurnaceException {
 		if (!isValid()) throw new InvalidSolarFurnaceException();
 	};
 	
-	private boolean isAirItem(ItemStack item) {
-		return item == null || Material.AIR.equals(item.getType());
-	};
-	
 	public void doTick() throws InvalidSolarFurnaceException {
-		checkBlocks();
+		check();
 		
 		Furnace furnace = (Furnace) furnaceBlock.getState();
-		if (isAirItem(furnace.getInventory().getSmelting())) return;
+		if (furnace.getInventory().getSmelting() == null) return;
 		
-		if (isLightLevelLow()) return;
+		if (furnaceBlock.getRelative(BlockFace.UP).getLightFromSky() < 15) return;
 		
-		short remainingTicks = (short) (furnace.getBurnTime() + 1);
-		if (remainingTicks == 1) {
-			remainingTicks++;
+		short remainingTicks = furnace.getBurnTime();
+		if (remainingTicks == 0) {
+			try {
+				furnace.setBurnTime((short) 2);
+				FurnaceUpdater.update(furnaceBlock, true);
+			} catch (Exception e) {
+				plugin.getLogger().log(Level.SEVERE, "Unable to update furnace block", e);
+				plugin.getServer().getPluginManager().disablePlugin(plugin);
+			};
+		} else {
+			furnace.setBurnTime((short) (remainingTicks + 1));
 		};
-		furnace.setBurnTime(remainingTicks);
-	};
-	
-	private boolean isLightLevelLow() {
-		World world = panelBlock.getWorld();
-		if (world.getEnvironment() != World.Environment.NORMAL) return true;
-		int worldTime = (int) world.getTime();
-		if (worldTime < 3000 || worldTime > 9000) return true;
-		if (panelBlock.getLightFromSky() < 15) return true;
-		return false;
 	};
 	
 	public Block getFurnaceBlock() {
