@@ -46,6 +46,7 @@ public class SolarFurnace {
 	};
 	
 	public void doTick() throws InvalidSolarFurnaceException {
+		if (!furnaceBlock.getChunk().isLoaded()) return;
 		check();
 		
 		Furnace furnace = (Furnace) furnaceBlock.getState();

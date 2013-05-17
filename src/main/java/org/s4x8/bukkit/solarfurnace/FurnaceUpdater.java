@@ -6,6 +6,7 @@ import org.bukkit.block.Furnace;
 import org.bukkit.Material;
 import org.bukkit.World;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /*
@@ -18,7 +19,9 @@ import net.minecraft.server.v1_5_R3.World;
 */
 
 public class FurnaceUpdater {
-	/*public static void update(Furnace furnace) throws Exception {
+	/* Original implementation, below translated to reflection calls for version-independency
+	
+	public static void update(Furnace furnace) throws Exception {
 		int id = furnace.getBurnTime() > 0 ? Block.BURNING_FURNACE.id : Block.FURNACE.id;
 		int x = furnace.getX();
 		int y = furnace.getY();
@@ -35,7 +38,8 @@ public class FurnaceUpdater {
 		chunk.l = true;
         	world.A(x, y, z);
         	world.notify(x, y, z);
-	};*/
+	};
+	*/
 	
 	public static void update(Furnace furnace) throws Exception {
 		update(furnace.getBlock(), furnace.getBurnTime() > 0);
@@ -59,12 +63,17 @@ public class FurnaceUpdater {
 		Object nmsChunk = nmsWorldGetChunk.invoke(nmsWorld, x, z);
 		
 		// Retrieves the NMS ChunkSection from the NMS Chunk that contains the furnace block
-		Method nmsChunkGetSections = nmsChunk.getClass().getMethod("i");
+		Class nmsChunkClass = nmsChunk.getClass();
+		Method nmsChunkGetSections = nmsChunkClass.getMethod("i");
 		Object nmsChunkSection = ((Object[]) nmsChunkGetSections.invoke(nmsChunk))[y >> 4];
 		
 		// Update block
 		Method nmsChunkSectionSetBlock = nmsChunkSection.getClass().getMethod("setTypeId", int.class, int.class, int.class, int.class);
 		nmsChunkSectionSetBlock.invoke(nmsChunkSection, x & 0xF, y & 0xF, z & 0xF, block);
+		
+		// Set chunk "isModified" flag
+		Field nmsChunkModified = nmsChunkClass.getField("l");
+		nmsChunkModified.setBoolean(nmsChunk, true);
 		
 		// Update lightning
 		Method nmsWorldUpdateLightning = nmsWorldClass.getMethod("A", int.class, int.class, int.class);
