@@ -45,7 +45,7 @@ public class SolarFurnace {
 		if (!isValid()) throw new InvalidSolarFurnaceException();
 	};
 	
-	public void doTick() throws InvalidSolarFurnaceException {
+	public void doTick() throws InvalidSolarFurnaceException, UnsupportedBukkitException {
 		if (!furnaceBlock.getChunk().isLoaded()) return;
 		check();
 		
@@ -56,13 +56,8 @@ public class SolarFurnace {
 		
 		short remainingTicks = furnace.getBurnTime();
 		if (remainingTicks == 0) {
-			try {
-				furnace.setBurnTime((short) 2);
-				FurnaceUpdater.update(furnaceBlock, true);
-			} catch (Exception e) {
-				plugin.getLogger().log(Level.SEVERE, "Unable to update furnace block", e);
-				plugin.getServer().getPluginManager().disablePlugin(plugin);
-			};
+			furnace.setBurnTime((short) 2);
+			plugin.getUpdater().update(furnaceBlock, true);
 		} else {
 			furnace.setBurnTime((short) (remainingTicks + 1));
 		};

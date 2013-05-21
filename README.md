@@ -40,6 +40,8 @@ This software is released under the open-source MIT license:
 
 Changelog
 ---------
+ * 21/V/2013 1.2:
+         * Added support for 1.4.7, 1.5 and 1.5.1.
  * 17/V/2013 1.1.1:
          * SolarFurnace in unloaded chunks are not ticked anymore.
          * Added this readme.

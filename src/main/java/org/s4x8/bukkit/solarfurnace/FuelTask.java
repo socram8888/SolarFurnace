@@ -27,6 +27,9 @@ public class FuelTask extends BukkitRunnable {
 					furnace.doTick();
 				} catch (InvalidSolarFurnaceException e) {
 					furnaceIterator.remove();
+				} catch (UnsupportedBukkitException e) {
+					plugin.getServer().getPluginManager().disablePlugin(plugin);
+					return;
 				};
 			};
 		};
