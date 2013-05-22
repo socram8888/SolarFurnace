@@ -40,18 +40,18 @@ This software is released under the open-source MIT license:
 
 Changelog
 ---------
- * 21/V/2013 1.2:
-         * Added support for 1.5 and 1.5.1.
- * 17/V/2013 1.1.1:
-         * SolarFurnace in unloaded chunks are not ticked anymore.
-         * Added this readme.
-         * Minor cleanups.
- * 16/V/2013 1.1:
-         * The plugin is finally capable of updating Furnace blocks from an Idle furnace to a Burning furnace without making throwing its contents or missing its orientation.
-         * Furnaces are also stored in a per-world basis, so saving, loading and ticking them it's much faster.
-         * Major cleanup in furnace storage, which is now is handled in another class, rather than in the main.
-         * The plugin now handles world loading and unloading successfully.
- * 14/V/2013 1.0: First public release
+* 21/V/2013 1.2:
+    * Added support for 1.5 and 1.5.1.
+* 17/V/2013 1.1.1:
+    * SolarFurnace in unloaded chunks are not ticked anymore.
+    * Added this readme.
+    * Minor cleanups.
+* 16/V/2013 1.1:
+    * The plugin is finally capable of updating Furnace blocks from an Idle furnace to a Burning furnace without making throwing its contents or missing its orientation.
+    * Furnaces are also stored in a per-world basis, so saving, loading and ticking them it's much faster.
+    * Major cleanup in furnace storage, which is now is handled in another class, rather than in the main.
+    * The plugin now handles world loading and unloading successfully.
+* 14/V/2013 1.0: First public release
 
 About the author
 ----------------
