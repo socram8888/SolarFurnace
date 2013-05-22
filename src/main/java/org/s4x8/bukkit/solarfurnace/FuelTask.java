@@ -5,6 +5,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.World;
 
 import java.util.Iterator;
+import java.util.logging.Level;
 
 public class FuelTask extends BukkitRunnable {
 	private SFPlugin plugin;
@@ -28,6 +29,8 @@ public class FuelTask extends BukkitRunnable {
 				} catch (InvalidSolarFurnaceException e) {
 					furnaceIterator.remove();
 				} catch (UnsupportedBukkitException e) {
+					plugin.getLogger().severe("Unexpected exception in FurnaceUpdater");
+					plugin.getLogger().log(Level.SEVERE, "Exception cause:", e.getCause());
 					plugin.getServer().getPluginManager().disablePlugin(plugin);
 					return;
 				};

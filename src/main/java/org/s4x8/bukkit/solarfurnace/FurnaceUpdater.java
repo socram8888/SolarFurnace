@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.Server;
 
-
 public class FurnaceUpdater {
 	/* Original implementation, below translated to reflection calls for version-independency
 	
@@ -45,9 +44,8 @@ public class FurnaceUpdater {
 		int revision = version.getRevision();
 		if (
 			(major != 1) ||
-			(minor < 4) ||
-			(minor == 4 && revision < 7) ||
-			(minor > 5)
+			(minor != 5) || 
+			(revision > 3)
 		) {
 			throw new UnsupportedBukkitException("Version " + version + " not supported");
 		};
@@ -79,7 +77,7 @@ public class FurnaceUpdater {
 			
 			// Update block
 			String setTypeIdMethodName;
-			if (version.getMinor() < 5 || (version.getMinor() == 5 && version.getRevision() < 2)) {
+			if (version.getRevision() < 3) { // Not checking major nor minor as only 1.5.x is currently supported
 				setTypeIdMethodName = "a";
 			} else {
 				setTypeIdMethodName = "setTypeId";
@@ -94,8 +92,8 @@ public class FurnaceUpdater {
 			
 			// Schedule block update for clients
 			nmsWorldClass.getMethod("notify", int.class, int.class, int.class).invoke(nmsWorld, x, y, z);
-		} catch (Exception e) {
-			throw new UnsupportedBukkitException("Unexpected exception. Please notify developers about this");
+		} catch (Exception ex) {
+			throw new UnsupportedBukkitException("Unexpected exception. Please notify developers about this", ex);
 		};
 	};
 };

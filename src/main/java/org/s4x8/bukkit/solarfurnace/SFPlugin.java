@@ -3,8 +3,6 @@ package org.s4x8.bukkit.solarfurnace;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Level;
-
 public class SFPlugin extends JavaPlugin {
 	private FurnaceDatabase furnaces;
 	private FurnaceUpdater furnaceUpdater;
@@ -13,7 +11,7 @@ public class SFPlugin extends JavaPlugin {
 		try {
 			furnaceUpdater = new FurnaceUpdater(getServer());
 		} catch (UnsupportedBukkitException e) {
-			getLogger().log(Level.SEVERE, "Unsupported Bukkit version", e);
+			getLogger().severe("Unsupported Bukkit version");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		};
@@ -27,7 +25,9 @@ public class SFPlugin extends JavaPlugin {
 	};
 	
 	public void onDisable() {
-		furnaces.unloadFurnaces();
+		if (furnaces != null) {
+			furnaces.unloadFurnaces();
+		};
 	};
 	
 	public FurnaceDatabase getFurnaces() {
