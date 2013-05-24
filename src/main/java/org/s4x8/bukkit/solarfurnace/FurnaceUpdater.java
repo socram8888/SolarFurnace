@@ -54,6 +54,14 @@ public class FurnaceUpdater {
 	public void update(Furnace furnace) throws UnsupportedBukkitException {
 		update(furnace.getBlock(), furnace.getBurnTime() > 0);
 	};
+	
+	public void setIdle(Block furnace) throws UnsupportedBukkitException {
+		update(furnace, false);
+	};
+	
+	public void setBurning(Block furnace) throws UnsupportedBukkitException {
+		update(furnace, true);
+	};
 
 	public void update(Block furnace, boolean burn) throws UnsupportedBukkitException {
 		// Cache values for faster access
@@ -87,7 +95,7 @@ public class FurnaceUpdater {
 			// Set chunk "isModified" flag
 			nmsChunkClass.getField("l").setBoolean(nmsChunk, true);
 			
-			// Update lightning
+			// Update lighting
 			nmsWorldClass.getMethod("A", int.class, int.class, int.class).invoke(nmsWorld, x, y, z);
 			
 			// Schedule block update for clients

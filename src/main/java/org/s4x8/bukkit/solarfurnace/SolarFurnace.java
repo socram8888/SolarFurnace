@@ -3,22 +3,23 @@ package org.s4x8.bukkit.solarfurnace;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
+import org.bukkit.Effect;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 
-import java.util.logging.Level;
+import lombok.Getter;
 
 public class SolarFurnace {
 	private SFPlugin plugin;
-	private Block furnaceBlock;
+	@Getter Block furnaceBlock = null;
 	
 	public SolarFurnace(SFPlugin plugin) {
 		this.plugin = plugin;
-		furnaceBlock = null;
 	};
 	
 	public SolarFurnace(SFPlugin plugin, Block furnaceBlock) throws InvalidSolarFurnaceException {
@@ -28,42 +29,53 @@ public class SolarFurnace {
 	};
 	
 	public void scan(Block scanBlock) throws InvalidSolarFurnaceException {
-		furnaceBlock = Material.DAYLIGHT_DETECTOR.equals(scanBlock.getType()) ? scanBlock.getRelative(BlockFace.DOWN) : scanBlock;
-		check();
-	};
-	
-	public boolean isValid() {
-		if (furnaceBlock == null) return false;
-		if (furnaceBlock.getWorld().getEnvironment() != World.Environment.NORMAL) return false;
+		furnaceBlock = scanBlock;
+		checkNullAndWorld();
+		if (Material.DAYLIGHT_DETECTOR.equals(furnaceBlock.getType())) {
+			furnaceBlock = furnaceBlock.getRelative(BlockFace.DOWN);
+		} else if (!Material.DAYLIGHT_DETECTOR.equals(furnaceBlock.getRelative(BlockFace.UP).getType())) {
+			throw new InvalidSolarFurnaceException("No solar panel found");
+		};
 		Material furnaceMaterial = furnaceBlock.getType();
-		if (!Material.BURNING_FURNACE.equals(furnaceMaterial) && !Material.FURNACE.equals(furnaceMaterial)) return false;
-		if (!Material.DAYLIGHT_DETECTOR.equals(furnaceBlock.getRelative(BlockFace.UP).getType())) return false;
-		return true;
+		if (!Material.FURNACE.equals(furnaceMaterial) && !Material.BURNING_FURNACE.equals(furnaceMaterial)) {
+			throw new InvalidSolarFurnaceException("No furnace found");
+		};
 	};
 	
-	private void check() throws InvalidSolarFurnaceException {
-		if (!isValid()) throw new InvalidSolarFurnaceException();
+	public void check() throws InvalidSolarFurnaceException {
+		checkNullAndWorld();
+		if (!Material.DAYLIGHT_DETECTOR.equals(furnaceBlock.getRelative(BlockFace.UP).getType())) {
+			throw new InvalidSolarFurnaceException("No solar panel found");
+		};
+		Material furnaceMaterial = furnaceBlock.getType();
+		if (!Material.FURNACE.equals(furnaceMaterial) && !Material.BURNING_FURNACE.equals(furnaceMaterial)) {
+			throw new InvalidSolarFurnaceException("No furnace found");
+		};
+	};
+	
+	private void checkNullAndWorld() throws InvalidSolarFurnaceException {
+		if (furnaceBlock == null) {
+			throw new InvalidSolarFurnaceException("Null block");
+		};
+		if (furnaceBlock.getWorld().getEnvironment() != World.Environment.NORMAL) {
+			throw new InvalidSolarFurnaceException("Invalid enviroment");
+		};
 	};
 	
 	public void doTick() throws InvalidSolarFurnaceException, UnsupportedBukkitException {
 		if (!furnaceBlock.getChunk().isLoaded()) return;
 		check();
-		
+
 		Furnace furnace = (Furnace) furnaceBlock.getState();
 		if (furnace.getInventory().getSmelting() == null) return;
-		
 		if (furnaceBlock.getRelative(BlockFace.UP).getLightFromSky() < 15) return;
-		
+
 		short remainingTicks = furnace.getBurnTime();
 		if (remainingTicks == 0) {
 			furnace.setBurnTime((short) 2);
-			plugin.getUpdater().update(furnaceBlock, true);
+			plugin.getUpdater().setBurning(furnaceBlock);
 		} else {
 			furnace.setBurnTime((short) (remainingTicks + 1));
 		};
-	};
-	
-	public Block getFurnaceBlock() {
-		return furnaceBlock;
 	};
 };
