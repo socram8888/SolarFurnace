@@ -7,6 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.Server;
 
+import lombok.Getter;
+
 public class FurnaceUpdater {
 	/* Original implementation, below translated to reflection calls for version-independency
 	
@@ -30,24 +32,24 @@ public class FurnaceUpdater {
 	};
 	*/
 	
-	private CraftVersion version;
+	@Getter private CraftVersion craftVersion;
 	
 	public FurnaceUpdater(Server server) throws UnsupportedBukkitException {
-		version = new CraftVersion(server);
+		craftVersion = new CraftVersion(server);
 		
-		if (version.getFlavour() == CraftVersion.Flavour.UNKNOWN) {
+		if (craftVersion.getFlavour() == CraftVersion.Flavour.UNKNOWN) {
 			throw new UnsupportedBukkitException("Unknown Bukkit implementation");
 		};
 
-		int major = version.getMajor();
-		int minor = version.getMinor();
-		int revision = version.getRevision();
+		int major = craftVersion.getMajor();
+		int minor = craftVersion.getMinor();
+		int revision = craftVersion.getRevision();
 		if (
 			(major != 1) ||
 			(minor != 5) || 
 			(revision > 3)
 		) {
-			throw new UnsupportedBukkitException("Version " + version + " not supported");
+			throw new UnsupportedBukkitException("Version " + craftVersion + " not supported");
 		};
 	};
 	
@@ -85,7 +87,7 @@ public class FurnaceUpdater {
 			
 			// Update block
 			String setTypeIdMethodName;
-			if (version.getRevision() < 3) { // Not checking major nor minor as only 1.5.x is currently supported
+			if (craftVersion.getRevision() < 3) { // Not checking major nor minor as only 1.5.x is currently supported
 				setTypeIdMethodName = "a";
 			} else {
 				setTypeIdMethodName = "setTypeId";

@@ -11,7 +11,7 @@ public class SFPlugin extends JavaPlugin {
 		try {
 			furnaceUpdater = new FurnaceUpdater(getServer());
 		} catch (UnsupportedBukkitException e) {
-			getLogger().severe("Unsupported Bukkit version");
+			getLogger().severe("Unsupported Bukkit version: " + furnaceUpdater.getCraftVersion());
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		};
