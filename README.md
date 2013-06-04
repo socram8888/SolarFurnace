@@ -40,6 +40,10 @@ This software is released under the open-source MIT license:
 
 Changelog
 ---------
+* 4/VI/2013 1.2.2:
+    * Added permission: "solarfurnace.create" (allowed by default)
+* 2/VI/2013 1.2.1:
+    * Fix for 1.5.2 not being detected properly.
 * 21/V/2013 1.2:
     * Added support for 1.5 and 1.5.1.
 * 17/V/2013 1.1.1:
