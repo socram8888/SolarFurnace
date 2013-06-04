@@ -1,18 +1,27 @@
 
 package org.s4x8.bukkit.solarfurnace;
 
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.PluginManager;
+
+import lombok.Getter;
 
 public class SFPlugin extends JavaPlugin {
-	private FurnaceDatabase furnaces;
-	private FurnaceUpdater furnaceUpdater;
+	@Getter private FurnaceDatabase furnaces;
+	@Getter private FurnaceUpdater updater;
+	@Getter private Permission createPermission = new Permission("solarfurnace.create", "Allows creation of solar furnaces", PermissionDefault.TRUE);
 	
 	public void onEnable() {
+		PluginManager pm = getServer().getPluginManager();
+		pm.addPermission(createPermission);
+		
 		try {
-			furnaceUpdater = new FurnaceUpdater(getServer());
+			updater = new FurnaceUpdater(getServer());
 		} catch (UnsupportedBukkitException e) {
-			getLogger().severe("Unsupported Bukkit version: " + furnaceUpdater.getCraftVersion());
-			getServer().getPluginManager().disablePlugin(this);
+			getLogger().severe("Unsupported Bukkit version: " + updater.getCraftVersion());
+			pm.disablePlugin(this);
 			return;
 		};
 	
@@ -25,16 +34,9 @@ public class SFPlugin extends JavaPlugin {
 	};
 	
 	public void onDisable() {
+		getServer().getPluginManager().removePermission(createPermission);
 		if (furnaces != null) {
 			furnaces.unloadFurnaces();
 		};
-	};
-	
-	public FurnaceDatabase getFurnaces() {
-		return furnaces;
-	};
-	
-	public FurnaceUpdater getUpdater() {
-		return furnaceUpdater;
 	};
 };

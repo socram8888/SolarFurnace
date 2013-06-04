@@ -16,6 +16,8 @@ public class CreateListener implements Listener {
 	
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
+		if (!event.getPlayer().hasPermission(plugin.getCreatePermission())) return;
+		
 		SolarFurnace solarFurnace = new SolarFurnace(plugin);
 		try {
 			solarFurnace.scan(event.getBlock());
