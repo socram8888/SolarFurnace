@@ -40,6 +40,12 @@ This software is released under the open-source MIT license:
 
 Changelog
 ---------
+* 17/VI/2013 1.3.1:
+    * Support for 1.6.2
+* 17/VI/2013 1.3.0:
+    * Support for 1.6.1
+* 17/VI/2013 1.2.3:
+    * Display detected CraftBukkit version when running on an invalid version.
 * 4/VI/2013 1.2.2:
     * Added permission: "solarfurnace.create" (allowed by default)
 * 2/VI/2013 1.2.1:

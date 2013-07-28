@@ -1,5 +1,5 @@
 
-package org.s4x8.bukkit.solarfurnace;
+package ti.s4x8.bukkit.solarfurnace;
 
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;

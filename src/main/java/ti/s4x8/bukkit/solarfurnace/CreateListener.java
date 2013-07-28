@@ -1,5 +1,5 @@
 
-package org.s4x8.bukkit.solarfurnace;
+package ti.s4x8.bukkit.solarfurnace;
 
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;

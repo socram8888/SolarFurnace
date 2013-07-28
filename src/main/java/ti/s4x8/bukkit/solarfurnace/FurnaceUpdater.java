@@ -1,5 +1,5 @@
 
-package org.s4x8.bukkit.solarfurnace;
+package ti.s4x8.bukkit.solarfurnace;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
@@ -38,19 +38,17 @@ public class FurnaceUpdater {
 		craftVersion = new CraftVersion(server);
 		
 		if (craftVersion.getFlavour() == CraftVersion.Flavour.UNKNOWN) {
-			throw new UnsupportedBukkitException("Unknown Bukkit implementation");
+			throw new UnsupportedBukkitException(craftVersion, "Unknown Bukkit implementation");
 		};
 
 		int major = craftVersion.getMajor();
 		int minor = craftVersion.getMinor();
 		int revision = craftVersion.getRevision();
-		if (
-			(major != 1) ||
-			(minor != 5) || 
-			(revision > 3)
-		) {
-			throw new UnsupportedBukkitException("Version " + craftVersion + " not supported");
-		};
+		
+		if (major == 1 && minor == 5 && revision >= 1 && revision <= 3) return;
+		if (major == 1 && minor == 6 && revision <= 2) return;
+		
+		throw new UnsupportedBukkitException(craftVersion, "Version not supported");
 	};
 	
 	public void update(Furnace furnace) throws UnsupportedBukkitException {
@@ -87,7 +85,7 @@ public class FurnaceUpdater {
 			
 			// Update block
 			String setTypeIdMethodName;
-			if (craftVersion.getRevision() < 3) { // Not checking major nor minor as only 1.5.x is currently supported
+			if (craftVersion.getMajor() == 1 && craftVersion.getMinor() == 5 && craftVersion.getRevision() < 3) {
 				setTypeIdMethodName = "a";
 			} else {
 				setTypeIdMethodName = "setTypeId";
@@ -103,7 +101,7 @@ public class FurnaceUpdater {
 			// Schedule block update for clients
 			nmsWorldClass.getMethod("notify", int.class, int.class, int.class).invoke(nmsWorld, x, y, z);
 		} catch (Exception ex) {
-			throw new UnsupportedBukkitException("Unexpected exception. Please notify developers about this", ex);
+			throw new UnsupportedBukkitException(craftVersion, "Unexpected exception. Please notify developers about this", ex);
 		};
 	};
 };

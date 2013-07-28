@@ -1,5 +1,5 @@
 
-package org.s4x8.bukkit.solarfurnace;
+package ti.s4x8.bukkit.solarfurnace;
 
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.World;
@@ -30,6 +30,7 @@ public class FuelTask extends BukkitRunnable {
 					furnaceIterator.remove();
 				} catch (UnsupportedBukkitException e) {
 					plugin.getLogger().severe("Unexpected exception in FurnaceUpdater");
+					plugin.getLogger().severe("Detected version: " + e.getCraftVersion());
 					plugin.getLogger().log(Level.SEVERE, "Exception cause:", e.getCause());
 					plugin.getServer().getPluginManager().disablePlugin(plugin);
 					return;

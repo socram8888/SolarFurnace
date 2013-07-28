@@ -1,5 +1,5 @@
 
-package org.s4x8.bukkit.solarfurnace;
+package ti.s4x8.bukkit.solarfurnace;
 
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -19,8 +19,8 @@ public class SFPlugin extends JavaPlugin {
 		
 		try {
 			updater = new FurnaceUpdater(getServer());
-		} catch (UnsupportedBukkitException e) {
-			getLogger().severe("Unsupported Bukkit version: " + updater.getCraftVersion());
+		} catch (UnsupportedBukkitException exception) {
+			getLogger().severe("Unsupported Bukkit version: " + exception.getCraftVersion());
 			pm.disablePlugin(this);
 			return;
 		};
