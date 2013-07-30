@@ -62,7 +62,7 @@ public class SolarFurnace {
 		};
 	};
 	
-	public void doTick() throws InvalidSolarFurnaceException, UnsupportedBukkitException {
+	public void doTick() throws InvalidSolarFurnaceException {
 		if (!furnaceBlock.getChunk().isLoaded()) return;
 		check();
 
@@ -73,7 +73,6 @@ public class SolarFurnace {
 		short remainingTicks = furnace.getBurnTime();
 		if (remainingTicks == 0) {
 			furnace.setBurnTime((short) 2);
-			plugin.getUpdater().setBurning(furnaceBlock);
 		} else {
 			furnace.setBurnTime((short) (remainingTicks + 1));
 		};

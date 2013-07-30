@@ -28,12 +28,6 @@ public class FuelTask extends BukkitRunnable {
 					furnace.doTick();
 				} catch (InvalidSolarFurnaceException e) {
 					furnaceIterator.remove();
-				} catch (UnsupportedBukkitException e) {
-					plugin.getLogger().severe("Unexpected exception in FurnaceUpdater");
-					plugin.getLogger().severe("Detected version: " + e.getCraftVersion());
-					plugin.getLogger().log(Level.SEVERE, "Exception cause:", e.getCause());
-					plugin.getServer().getPluginManager().disablePlugin(plugin);
-					return;
 				};
 			};
 		};

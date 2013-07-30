@@ -10,20 +10,11 @@ import lombok.Getter;
 
 public class SFPlugin extends JavaPlugin {
 	@Getter private FurnaceDatabase furnaces;
-	@Getter private FurnaceUpdater updater;
 	@Getter private Permission createPermission = new Permission("solarfurnace.create", "Allows creation of solar furnaces", PermissionDefault.TRUE);
 	
 	public void onEnable() {
 		PluginManager pm = getServer().getPluginManager();
 		pm.addPermission(createPermission);
-		
-		try {
-			updater = new FurnaceUpdater(getServer());
-		} catch (UnsupportedBukkitException exception) {
-			getLogger().severe("Unsupported Bukkit version: " + exception.getCraftVersion());
-			pm.disablePlugin(this);
-			return;
-		};
 	
 		furnaces = new FurnaceDatabase(this);
 		new CreateListener(this);
