@@ -40,6 +40,9 @@ This software is released under the open-source MIT license:
 
 Changelog
 ---------
+* 15/VIII/2013 1.4:
+    * Support for SportBukkit
+	* Added Metrics
 * 9/VII/2013 1.3.1:
     * Support for 1.6.2
 * 2/VII/2013 1.3.0:
