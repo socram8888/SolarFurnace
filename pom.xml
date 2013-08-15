@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<name>SolarFurnace</name>
-	<version>1.3.1</version>
+	<version>1.4</version>
 	<url>https://github.com/socram8888/solarfurnace/</url>
 	<groupId>ti.s4x8.bukkit</groupId>
 	<artifactId>solarfurnace</artifactId>
@@ -32,13 +32,45 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<includes>
+									<include>org.mcstats.bukkit:metrics-lite</include>
+								</includes>
+							</artifactSet>
+							<relocations>
+								<relocation>
+									<pattern>org.mcstats</pattern>
+									<shadedPattern>${project.groupId}.${project.artifactId}.metrics</shadedPattern>
+								</relocation>
+							</relocations>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
 	<repositories>
 		<repository>
 			<id>bukkit-repo</id>
+			<name>Bukkit Repo</name>
 			<url>http://repo.bukkit.org/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>mcstats-repo</id>
+			<name>McStats Repo</name>
+			<url>http://repo.mcstats.org/content/repositories/public</url>
 		</repository>
 	</repositories>
 
@@ -47,13 +79,16 @@
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>1.5.2-R1.0</version>
-			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mcstats.bukkit</groupId>
+			<artifactId>metrics-lite</artifactId>
+			<version>R7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>0.11.8</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

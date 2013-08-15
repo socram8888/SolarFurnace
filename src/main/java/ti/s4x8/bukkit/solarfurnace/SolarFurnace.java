@@ -3,9 +3,7 @@ package ti.s4x8.bukkit.solarfurnace;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
-import org.bukkit.Effect;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Location;
@@ -17,17 +15,17 @@ import lombok.Getter;
 public class SolarFurnace {
 	private SFPlugin plugin;
 	@Getter Block furnaceBlock = null;
-	
+
 	public SolarFurnace(SFPlugin plugin) {
 		this.plugin = plugin;
 	};
-	
+
 	public SolarFurnace(SFPlugin plugin, Block furnaceBlock) throws InvalidSolarFurnaceException {
 		this.plugin = plugin;
 		this.furnaceBlock = furnaceBlock;
 		check();
 	};
-	
+
 	public void scan(Block scanBlock) throws InvalidSolarFurnaceException {
 		furnaceBlock = scanBlock;
 		checkNullAndWorld();
@@ -41,7 +39,7 @@ public class SolarFurnace {
 			throw new InvalidSolarFurnaceException("No furnace found");
 		};
 	};
-	
+
 	public void check() throws InvalidSolarFurnaceException {
 		checkNullAndWorld();
 		if (!Material.DAYLIGHT_DETECTOR.equals(furnaceBlock.getRelative(BlockFace.UP).getType())) {
@@ -52,7 +50,7 @@ public class SolarFurnace {
 			throw new InvalidSolarFurnaceException("No furnace found");
 		};
 	};
-	
+
 	private void checkNullAndWorld() throws InvalidSolarFurnaceException {
 		if (furnaceBlock == null) {
 			throw new InvalidSolarFurnaceException("Null block");
@@ -61,7 +59,7 @@ public class SolarFurnace {
 			throw new InvalidSolarFurnaceException("Invalid enviroment");
 		};
 	};
-	
+
 	public void doTick() throws InvalidSolarFurnaceException, UnsupportedBukkitException {
 		if (!furnaceBlock.getChunk().isLoaded()) return;
 		check();

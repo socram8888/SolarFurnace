@@ -8,16 +8,16 @@ import org.bukkit.event.Listener;
 
 public class CreateListener implements Listener {
 	private SFPlugin plugin;
-	
+
 	public CreateListener(SFPlugin plugin) {
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	};
-	
+
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
 		if (!event.getPlayer().hasPermission(plugin.getCreatePermission())) return;
-		
+
 		SolarFurnace solarFurnace = new SolarFurnace(plugin);
 		try {
 			solarFurnace.scan(event.getBlock());

@@ -9,12 +9,12 @@ import java.util.logging.Level;
 
 public class FuelTask extends BukkitRunnable {
 	private SFPlugin plugin;
-	
+
 	public FuelTask(SFPlugin plugin) {
 		this.plugin = plugin;
 		runTaskTimer(plugin, 0, 1);
 	};
-	
+
 	public void run() {
 		FurnaceDatabase furnaces = plugin.getFurnaces();
 		Iterator<World> worldIterator = furnaces.getWorlds().iterator();

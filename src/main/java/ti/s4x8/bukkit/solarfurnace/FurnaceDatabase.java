@@ -24,14 +24,14 @@ public class FurnaceDatabase {
 		furnaces = new HashMap<World, ArrayList<SolarFurnace>>();
 		this.plugin = plugin;
 	};
-	
+
 	public void loadFurnaces() {
 		Iterator<World> it = plugin.getServer().getWorlds().iterator();
 		while (it.hasNext()) {
 			loadWorldFurnaces(it.next());
 		};
 	};
-	
+
 	public void unloadFurnaces() {
 		Iterator<World> it = furnaces.keySet().iterator();
 		while (it.hasNext()) {
@@ -39,13 +39,13 @@ public class FurnaceDatabase {
 			it.remove();
 		};
 	};
-	
+
 	public void loadWorldFurnaces(World world) {
 		if (world.getEnvironment() != World.Environment.NORMAL) return;
-	
+
 		ArrayList<SolarFurnace> worldFurnaces = new ArrayList<SolarFurnace>();
 		furnaces.put(world, worldFurnaces);
-		
+
 		File file = new File(world.getWorldFolder(), "solarfurnace.bin");
 		FileInputStream fileStream = null;
 		try {
@@ -54,7 +54,7 @@ public class FurnaceDatabase {
 			plugin.getLogger().info("No solar furnace data found for world " + world.getName());
 			return;
 		};
-		
+
 		DataInputStream dataStream = new DataInputStream(fileStream);
 		while (true) {
 			try {
@@ -75,10 +75,10 @@ public class FurnaceDatabase {
 		} catch (IOException e) { };
 		plugin.getLogger().info("Found " + worldFurnaces.size() + " solar furnace(s) in world " + world.getName());
 	};
-	
+
 	private void saveWorldFurnaces(World world) {
 		ArrayList<SolarFurnace> worldFurnaces = furnaces.get(world);
-		
+
 		File file = new File(world.getWorldFolder(), "solarfurnace.bin");
 		FileOutputStream fileStream = null;
 		try {
@@ -87,7 +87,7 @@ public class FurnaceDatabase {
 			plugin.getLogger().warning("Unable to save furnace data for world " + world.getName());
 			return;
 		};
-		
+
 		DataOutputStream dataStream = new DataOutputStream(fileStream);
 		Iterator<SolarFurnace> it = worldFurnaces.iterator();
 		while (it.hasNext()) {
@@ -106,28 +106,28 @@ public class FurnaceDatabase {
 		} catch (IOException e) { };
 		plugin.getLogger().info("Saved " + worldFurnaces.size() + " solar furnace(s) in world " + world.getName());
 	};
-	
+
 	public void unloadWorldFurnaces(World world) {
 		saveWorldFurnaces(world);
 		furnaces.remove(world);
 	};
-	
+
 	public void add(SolarFurnace furnace) {
 		furnaces.get(furnace.getFurnaceBlock().getWorld()).add(furnace);
 	};
-	
+
 	public void remove(SolarFurnace furnace) {
 		furnaces.get(furnace.getFurnaceBlock().getWorld()).remove(furnace);
 	};
-	
+
 	public Set<World> getWorlds() {
 		return furnaces.keySet();
 	};
-	
+
 	public ArrayList<SolarFurnace> getFurnacesInWorld(World world) {
 		return furnaces.get(world);
 	};
-	
+
 	public HashMap<World, ArrayList<SolarFurnace>> getFurnaces() {
 		return furnaces;
 	};
