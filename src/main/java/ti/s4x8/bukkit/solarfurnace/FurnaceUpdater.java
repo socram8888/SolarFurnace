@@ -44,7 +44,7 @@ public class FurnaceUpdater {
 			int minor = craftVersion.getMinor();
 			int revision = craftVersion.getRevision();
 			if (major == 1 && minor == 5 && revision >= 1 && revision <= 3) return;
-			if (major == 1 && minor == 6 && revision <= 2) return;
+			if (major == 1 && minor == 6 && revision <= 3) return;
 		};
 
 		throw new UnsupportedBukkitException(craftVersion);
