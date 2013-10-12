@@ -21,7 +21,7 @@ public class SolarFurnace {
 		this.furnaceBlock = furnaceBlock;
 	};
 
-	public void check() throws InvalidSolarFurnaceException {
+	public void check() throws ChunkNotLoadedException, InvalidSolarFurnaceException {
 		checkWorld();
 		checkFurnace();
 		checkPanels();
@@ -33,9 +33,9 @@ public class SolarFurnace {
 		};
 	};
 
-	public void checkFurnace() throws InvalidSolarFurnaceException {
+	public void checkFurnace() throws ChunkNotLoadedException, InvalidSolarFurnaceException {
 		if (!furnaceBlock.getChunk().isLoaded()) {
-			return;
+			throw new ChunkNotLoadedException("Cannot check furnace");
 		};
 		Material furnaceMaterial = furnaceBlock.getType();
 		if (furnaceMaterial != Material.FURNACE && furnaceMaterial != Material.BURNING_FURNACE) {
@@ -43,23 +43,21 @@ public class SolarFurnace {
 		};
 	};
 
-	public void checkPanels() throws InvalidSolarFurnaceException {
+	public void checkPanels() throws ChunkNotLoadedException, InvalidSolarFurnaceException {
 		for (int i = 0; i < PANEL_SIDES.length; i++) {
 			Block panelBlock = furnaceBlock.getRelative(PANEL_SIDES[i]);
-			if (
-				!panelBlock.getChunk().isLoaded() ||
-				panelBlock.getType() == Material.DAYLIGHT_DETECTOR
-			) {
+			if (panelBlock.getChunk().isLoaded()) {
+				throw new ChunkNotLoadedException("Cannot check panels");
+			};
+			if (panelBlock.getType() == Material.DAYLIGHT_DETECTOR) {
 				return;
 			};
 		};
 		throw new InvalidSolarFurnaceException("No solar panel found");
 	};
 
-	public void doTick() throws InvalidSolarFurnaceException, UnsupportedBukkitException {
-		if (!furnaceBlock.getChunk().isLoaded()) return;
+	public void doTick() throws ChunkNotLoadedException, InvalidSolarFurnaceException, UnsupportedBukkitException {
 		checkFurnace();
-
 		Furnace furnace = (Furnace) furnaceBlock.getState();
 		if (furnace.getInventory().getSmelting() == null) return;
 		if (getPanelsLight() < 15) return;
@@ -73,21 +71,23 @@ public class SolarFurnace {
 		};
 	};
 
-	private int getPanelsLight() throws InvalidSolarFurnaceException {
+	private int getPanelsLight() throws ChunkNotLoadedException, InvalidSolarFurnaceException {
 		int intensity = -1;
-		boolean die = true;
+		boolean chunkUnloaded = false;
 		for (int i = 0; i < PANEL_SIDES.length; i++) {
 			Block panelBlock = furnaceBlock.getRelative(PANEL_SIDES[i]);
 			if (!panelBlock.getChunk().isLoaded()) {
-				die = false;
+				chunkUnloaded = true;
 				continue;
 			};
 			if (panelBlock.getType() == Material.DAYLIGHT_DETECTOR) {
 				intensity = Math.max(intensity, panelBlock.getLightFromSky());
-				die = false;
 			};
 		};
-		if (die) {
+		if (intensity < 0) {
+			if (chunkUnloaded) {
+				throw new ChunkNotLoadedException("Cannot check panels");
+			};
 			throw new InvalidSolarFurnaceException("No solar panel found");
 		};
 		return intensity;

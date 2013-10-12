@@ -26,6 +26,8 @@ public class FuelTask extends BukkitRunnable {
 				SolarFurnace furnace = furnaceIterator.next();
 				try {
 					furnace.doTick();
+				} catch (ChunkNotLoadedException e) {
+					// Do nothing
 				} catch (InvalidSolarFurnaceException e) {
 					furnaceIterator.remove();
 				} catch (UnsupportedBukkitException e) {

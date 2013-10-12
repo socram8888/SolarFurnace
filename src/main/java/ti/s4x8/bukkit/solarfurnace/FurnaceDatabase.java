@@ -66,6 +66,8 @@ public class FurnaceDatabase {
 				SolarFurnace solarFurnace = new SolarFurnace(plugin, furnaceBlock);
 				try {
 					solarFurnace.check();
+				} catch (ChunkNotLoadedException e) {
+					// Do nothing
 				} catch (InvalidSolarFurnaceException e) {
 					continue;
 				};

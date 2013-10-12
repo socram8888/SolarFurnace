@@ -29,6 +29,8 @@ public class CreateListener implements Listener {
 			try {
 				solarFurnace.checkWorld();
 				solarFurnace.checkPanels();
+			} catch (ChunkNotLoadedException e) {
+				// Do nothing
 			} catch (InvalidSolarFurnaceException e) {
 				return;
 			};
@@ -42,6 +44,8 @@ public class CreateListener implements Listener {
 				try {
 					solarFurnace.checkWorld();
 					solarFurnace.checkFurnace();
+				} catch (ChunkNotLoadedException e) {
+					// Do nothing
 				} catch (InvalidSolarFurnaceException e) {
 					continue;
 				};
