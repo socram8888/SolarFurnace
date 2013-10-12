@@ -4,7 +4,7 @@ S4X8 SolarFurnace
 What is this?
 -------------
 
-This is a plugin designed for the [Bukkit]-based server [Mine21], and gives the recently-introduced [Daylight Sensors] a new usage: power [Furnaces]! No more coal mining or burning wood! Its usage it's very simple: just place a Daylight Sensor on top of a Furnace!
+This is a plugin designed for the [Bukkit]-based server [Terranova], and gives the recently-introduced [Daylight Sensors] a new usage: power [Furnaces]! No more coal mining or burning wood! Its usage it's very simple: just place a Daylight Sensor on top of a Furnace!
 
 ![Picture of a SolarFurnace][Picture of a SolarFurnace]
 
@@ -40,6 +40,8 @@ This software is released under the open-source MIT license:
 
 Changelog
 ---------
+* 12/X/2013 1.5:
+    * Now solar panels can be placed in any side, instead of only on top of a furnace.
 * 20/IX/2013 1.4.1:
     * Added support for 1.6.4.
 * 15/VIII/2013 1.4:
@@ -78,6 +80,6 @@ My name is Marcos Vives Del Sol, aka "socram8888". I'm a 18-year-old Spanish guy
   [download the pre-built version]: http://dev.bukkit.org/server-mods/solarfurnace/
   [Furnaces]: http://www.minecraftwiki.net/wiki/Furnace
   [Maven 2]: http://maven.apache.org/
-  [Mine21]: http://mine21.net/
+  [Terranova]: http://terranova.mine.bz/
   [Oracle Java Development Kit]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
   [Picture of a SolarFurnace]: http://i.imgur.com/v7BOvEN.jpg
