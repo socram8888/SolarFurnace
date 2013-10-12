@@ -62,10 +62,14 @@ public class FurnaceDatabase {
 				int y = dataStream.readUnsignedByte();
 				int z = dataStream.readInt();
 				Block furnaceBlock = world.getBlockAt(x, y, z);
+
+				SolarFurnace solarFurnace = new SolarFurnace(plugin, furnaceBlock);
 				try {
-					SolarFurnace solarFurnace = new SolarFurnace(plugin, furnaceBlock);
-					worldFurnaces.add(solarFurnace);
-				} catch (InvalidSolarFurnaceException e) { };
+					solarFurnace.check();
+				} catch (InvalidSolarFurnaceException e) {
+					continue;
+				};
+				worldFurnaces.add(solarFurnace);
 			} catch (IOException e) {
 				break;
 			};

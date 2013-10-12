@@ -4,69 +4,65 @@ package ti.s4x8.bukkit.solarfurnace;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Furnace;
-import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 
 import lombok.Getter;
 
 public class SolarFurnace {
+	private static final BlockFace[] PANEL_SIDES = new BlockFace[] { BlockFace.UP, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST };
+
 	private SFPlugin plugin;
-	@Getter Block furnaceBlock = null;
+	@Getter private Block furnaceBlock;
 
-	public SolarFurnace(SFPlugin plugin) {
-		this.plugin = plugin;
-	};
-
-	public SolarFurnace(SFPlugin plugin, Block furnaceBlock) throws InvalidSolarFurnaceException {
+	public SolarFurnace(SFPlugin plugin, Block furnaceBlock) {
 		this.plugin = plugin;
 		this.furnaceBlock = furnaceBlock;
-		check();
-	};
-
-	public void scan(Block scanBlock) throws InvalidSolarFurnaceException {
-		furnaceBlock = scanBlock;
-		checkNullAndWorld();
-		if (Material.DAYLIGHT_DETECTOR.equals(furnaceBlock.getType())) {
-			furnaceBlock = furnaceBlock.getRelative(BlockFace.DOWN);
-		} else if (!Material.DAYLIGHT_DETECTOR.equals(furnaceBlock.getRelative(BlockFace.UP).getType())) {
-			throw new InvalidSolarFurnaceException("No solar panel found");
-		};
-		Material furnaceMaterial = furnaceBlock.getType();
-		if (!Material.FURNACE.equals(furnaceMaterial) && !Material.BURNING_FURNACE.equals(furnaceMaterial)) {
-			throw new InvalidSolarFurnaceException("No furnace found");
-		};
 	};
 
 	public void check() throws InvalidSolarFurnaceException {
-		checkNullAndWorld();
-		if (!Material.DAYLIGHT_DETECTOR.equals(furnaceBlock.getRelative(BlockFace.UP).getType())) {
-			throw new InvalidSolarFurnaceException("No solar panel found");
-		};
-		Material furnaceMaterial = furnaceBlock.getType();
-		if (!Material.FURNACE.equals(furnaceMaterial) && !Material.BURNING_FURNACE.equals(furnaceMaterial)) {
-			throw new InvalidSolarFurnaceException("No furnace found");
-		};
+		checkWorld();
+		checkFurnace();
+		checkPanels();
 	};
 
-	private void checkNullAndWorld() throws InvalidSolarFurnaceException {
-		if (furnaceBlock == null) {
-			throw new InvalidSolarFurnaceException("Null block");
-		};
+	public void checkWorld() throws InvalidSolarFurnaceException {
 		if (furnaceBlock.getWorld().getEnvironment() != World.Environment.NORMAL) {
 			throw new InvalidSolarFurnaceException("Invalid enviroment");
 		};
 	};
 
+	public void checkFurnace() throws InvalidSolarFurnaceException {
+		if (!furnaceBlock.getChunk().isLoaded()) {
+			return;
+		};
+		Material furnaceMaterial = furnaceBlock.getType();
+		if (furnaceMaterial != Material.FURNACE && furnaceMaterial != Material.BURNING_FURNACE) {
+			throw new InvalidSolarFurnaceException("No furnace found");
+		};
+	};
+
+	public void checkPanels() throws InvalidSolarFurnaceException {
+		for (int i = 0; i < PANEL_SIDES.length; i++) {
+			Block panelBlock = furnaceBlock.getRelative(PANEL_SIDES[i]);
+			if (
+				!panelBlock.getChunk().isLoaded() ||
+				panelBlock.getType() == Material.DAYLIGHT_DETECTOR
+			) {
+				return;
+			};
+		};
+		throw new InvalidSolarFurnaceException("No solar panel found");
+	};
+
 	public void doTick() throws InvalidSolarFurnaceException, UnsupportedBukkitException {
 		if (!furnaceBlock.getChunk().isLoaded()) return;
-		check();
+		checkFurnace();
 
 		Furnace furnace = (Furnace) furnaceBlock.getState();
 		if (furnace.getInventory().getSmelting() == null) return;
-		if (furnaceBlock.getRelative(BlockFace.UP).getLightFromSky() < 15) return;
+		if (getPanelsLight() < 15) return;
 
 		short remainingTicks = furnace.getBurnTime();
 		if (remainingTicks == 0) {
@@ -75,5 +71,25 @@ public class SolarFurnace {
 		} else {
 			furnace.setBurnTime((short) (remainingTicks + 1));
 		};
+	};
+
+	private int getPanelsLight() throws InvalidSolarFurnaceException {
+		int intensity = -1;
+		boolean die = true;
+		for (int i = 0; i < PANEL_SIDES.length; i++) {
+			Block panelBlock = furnaceBlock.getRelative(PANEL_SIDES[i]);
+			if (!panelBlock.getChunk().isLoaded()) {
+				die = false;
+				continue;
+			};
+			if (panelBlock.getType() == Material.DAYLIGHT_DETECTOR) {
+				intensity = Math.max(intensity, panelBlock.getLightFromSky());
+				die = false;
+			};
+		};
+		if (die) {
+			throw new InvalidSolarFurnaceException("No solar panel found");
+		};
+		return intensity;
 	};
 };

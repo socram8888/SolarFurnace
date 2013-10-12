@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<name>SolarFurnace</name>
-	<version>1.4.1</version>
+	<version>2.0</version>
 	<url>https://github.com/socram8888/solarfurnace/</url>
 	<groupId>ti.s4x8.bukkit</groupId>
 	<artifactId>solarfurnace</artifactId>
@@ -78,7 +78,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.5.2-R1.0</version>
+			<version>1.6.2-R1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mcstats.bukkit</groupId>
