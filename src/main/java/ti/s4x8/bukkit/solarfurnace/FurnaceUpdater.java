@@ -32,13 +32,15 @@ public class FurnaceUpdater {
 	};
 	*/
 
-	@Getter private CraftVersion craftVersion;
+	@Getter private final CraftVersion craftVersion;
+	private final boolean fixed;
 
 	public FurnaceUpdater(CraftVersion craftVersion) throws UnsupportedBukkitException {
 		this.craftVersion = craftVersion;
+		fixed = isVersionFixed(craftVersion);
+		if (fixed) return;
 
 		CraftVersion.Flavour flavour = craftVersion.getFlavour();
-		if (flavour == CraftVersion.Flavour.SPORTBUKKIT) return;
 		if (flavour == CraftVersion.Flavour.CRAFTBUKKIT) {
 			int major = craftVersion.getMajor();
 			int minor = craftVersion.getMinor();
@@ -63,8 +65,7 @@ public class FurnaceUpdater {
 	};
 
 	public void update(Block furnace, boolean burn) throws UnsupportedBukkitException {
-		// SportBukkit is patched, so it doesn't need this
-		if (craftVersion.getFlavour() == CraftVersion.Flavour.SPORTBUKKIT) return;
+		if (fixed) return;
 
 		// Cache values for faster access
 		int x = furnace.getX();
@@ -106,4 +107,19 @@ public class FurnaceUpdater {
 			throw new UnsupportedBukkitException(craftVersion, "Unexpected exception. Please notify developers about this", ex);
 		};
 	};
+
+	private static final CraftVersion CRAFT_FIXED = new CraftVersion(CraftVersion.Flavour.CRAFTBUKKIT, 1, 8, 2); // Spigot's CraftBukkit
+
+	public static boolean isVersionFixed(CraftVersion craftVersion) {
+		CraftVersion.Flavour flavour = craftVersion.getFlavour();
+
+		// SportBukkit is patched, so it doesn't need this
+		if (flavour == CraftVersion.Flavour.SPORTBUKKIT) return true;
+
+		if (flavour == CraftVersion.Flavour.CRAFTBUKKIT) {
+			return craftVersion.compareTo(CRAFT_FIXED) >= 0;
+		}
+
+		return false;
+	}
 };
