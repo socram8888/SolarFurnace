@@ -7,10 +7,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.Server;
 
-import java.io.IOException;
-
-import org.mcstats.MetricsLite;
-
 import lombok.Getter;
 
 public class SFPlugin extends JavaPlugin {
@@ -40,9 +36,7 @@ public class SFPlugin extends JavaPlugin {
 		new WorldListener(this);
 		new FuelTask(this);
 
-		try {
-			(new MetricsLite(this)).start();
-		} catch (IOException e) { };
+		
 	};
 
 	public void onDisable() {
