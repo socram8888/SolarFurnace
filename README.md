@@ -78,7 +78,7 @@ My name is Marcos Vives Del Sol, aka "socram8888". I'm a 18-year-old Spanish guy
   [Bukkit]: http://www.bukkit.org/
   [Daylight Sensors]: http://www.minecraftwiki.net/wiki/Daylight_Sensor
   [download the pre-built version (broken)]: http://dev.bukkit.org/server-mods/solarfurnace/
-  [Download 1.9.x version]:https://mega.nz/#!TkB0XIRD!3tFa2Qf8WFd7HbJ7s-SKQkhvKvWr6KTPJ59SGK_CT-Y
+  [Download 1.9.x version]:https://mega.nz/#!m84RxJyC!-PXKKRPTqhhJ__Q9A1NLlnV8d0Ful9W5y_gx1ICzlYM
   [other builds]:https://mega.nz/#F!PgQShJiC!_iKhw7WcKZCjesHhbuwq6g
   [Furnaces]: http://www.minecraftwiki.net/wiki/Furnace
   [Maven 2]: http://maven.apache.org/
