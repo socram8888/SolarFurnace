@@ -13,8 +13,8 @@ As every solar panels, they require a strong light source, so they don't work in
 Installation
 ------------
 
-To install the plugin on your Bukkit server, you may either [download the pre-built version], or compile it yourself.
-
+To install the plugin on your Bukkit server, you may either [Download 1.9.x version], or compile it yourself.
+Here are some [other builds]
 To compile it yourself, you need [Oracle Java Development Kit] v1.6 or newer, [Maven 2], and Git. When you have all of them downloaded and installed, you have to grab the source code using GIT and compile it:
 
 	git clone http://github.com/socram8888/SolarFurnace
@@ -77,7 +77,9 @@ My name is Marcos Vives Del Sol, aka "socram8888". I'm a 18-year-old Spanish guy
 
   [Bukkit]: http://www.bukkit.org/
   [Daylight Sensors]: http://www.minecraftwiki.net/wiki/Daylight_Sensor
-  [download the pre-built version]: http://dev.bukkit.org/server-mods/solarfurnace/
+  [download the pre-built version (broken)]: http://dev.bukkit.org/server-mods/solarfurnace/
+  [Download 1.9.x version]:https://mega.nz/#!m84RxJyC!-PXKKRPTqhhJ__Q9A1NLlnV8d0Ful9W5y_gx1ICzlYM
+  [other builds]:https://mega.nz/#F!PgQShJiC!_iKhw7WcKZCjesHhbuwq6g
   [Furnaces]: http://www.minecraftwiki.net/wiki/Furnace
   [Maven 2]: http://maven.apache.org/
   [Terranova]: http://terranova.mine.bz/
