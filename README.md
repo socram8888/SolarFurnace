@@ -4,7 +4,7 @@ S4X8 SolarFurnace
 What is this?
 -------------
 
-This is a plugin designed for the [Bukkit]-based server [Terranova], and gives the recently-introduced [Daylight Sensors] a new usage: power [Furnaces]! No more coal mining or burning wood! Its usage it's very simple: just place a Daylight Sensor on top of a Furnace!
+This is a plugin designed for the [Bukkit]-based server Terranova, and gives the recently-introduced [Daylight Sensors] a new usage: power [Furnaces]! No more coal mining or burning wood! Its usage it's very simple: just place a Daylight Sensor on top of a Furnace!
 
 ![Picture of a SolarFurnace][Picture of a SolarFurnace]
 
@@ -15,9 +15,9 @@ Installation
 
 To install the plugin on your Bukkit server, you may either [download the pre-built version], or compile it yourself.
 
-To compile it yourself, you need [Oracle Java Development Kit] v1.6 or newer, [Maven 2], and Git. When you have all of them downloaded and installed, you have to grab the source code using GIT and compile it:
+To compile it yourself, you need [Oracle Java Development Kit] v1.7 or newer, [Maven 2], and Git. When you have all of them downloaded and installed, you have to grab the source code using GIT and compile it:
 
-	git clone http://github.com/socram8888/SolarFurnace
+	git clone https://github.com/socram8888/SolarFurnace
 	cd SolarFurnace
 	mvn clean package
 	
@@ -30,7 +30,7 @@ License
 
 This software is released under the open-source MIT license:
 
->Copyright © 2013 Marcos Vives Del Sol
+>Copyright © 2016 Marcos Vives Del Sol
 >
 >Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 >
@@ -40,6 +40,8 @@ This software is released under the open-source MIT license:
 
 Changelog
 ---------
+* 15/V/2016 1.5.1:
+    * Added support for Spigot 1.8.4 or newer.
 * 12/X/2013 1.5:
     * Now solar panels can be placed in any side, instead of only on top of a furnace.
 * 20/IX/2013 1.4.1:
@@ -77,9 +79,8 @@ My name is Marcos Vives Del Sol, aka "socram8888". I'm a 18-year-old Spanish guy
 
   [Bukkit]: http://www.bukkit.org/
   [Daylight Sensors]: http://www.minecraftwiki.net/wiki/Daylight_Sensor
-  [download the pre-built version]: http://dev.bukkit.org/server-mods/solarfurnace/
+  [download the pre-built version]: https://github.com/socram8888/SolarFurnace/releases
   [Furnaces]: http://www.minecraftwiki.net/wiki/Furnace
   [Maven 2]: http://maven.apache.org/
-  [Terranova]: http://terranova.mine.bz/
   [Oracle Java Development Kit]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
   [Picture of a SolarFurnace]: http://i.imgur.com/v7BOvEN.jpg
