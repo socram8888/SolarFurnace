@@ -1,5 +1,5 @@
 
-package ti.s4x8.bukkit.solarfurnace;
+package ovh.socram.bukkit.solarfurnace;
 
 public class ChunkNotLoadedException extends Exception {
 	public ChunkNotLoadedException() {
