@@ -63,10 +63,11 @@
 
 	<repositories>
 		<repository>
-			<id>bukkit-repo</id>
-			<name>Bukkit Repo</name>
-			<url>http://repo.bukkit.org/content/groups/public</url>
+			<id>spigot-repo</id>
+			<name>Spigot Repo</name>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/public/</url>
 		</repository>
+
 		<repository>
 			<id>mcstats-repo</id>
 			<name>McStats Repo</name>
@@ -76,14 +77,14 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>1.6.2-R1.0</version>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.10-R0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mcstats</groupId>
 			<artifactId>metrics-lite</artifactId>
-			<version>1.1</version>
+			<version>1.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
