@@ -40,6 +40,10 @@ This software is released under the open-source MIT license:
 
 Changelog
 ---------
+* 19/VII/2016 1.5.3:
+    * REALLY update MetricsLite.
+* 23/VI/2016 1.5.2:
+    * Fixed scary warning caused by an obsolete MetricsLite.
 * 15/V/2016 1.5.1:
     * Added support for Spigot 1.8.4 or newer.
 * 12/X/2013 1.5:
