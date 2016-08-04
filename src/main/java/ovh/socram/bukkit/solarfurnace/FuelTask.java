@@ -36,6 +36,9 @@ public class FuelTask extends BukkitRunnable {
 					plugin.getLogger().log(Level.SEVERE, "Exception cause:", e.getCause());
 					plugin.getServer().getPluginManager().disablePlugin(plugin);
 					return;
+				} catch (Exception e) {
+					plugin.getLogger().log(Level.SEVERE, "Unexpected exception ticking furnace at " + furnace.getFurnaceBlock(), e.getCause());
+					furnaceIterator.remove();
 				};
 			};
 		};
