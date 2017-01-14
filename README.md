@@ -1,5 +1,5 @@
-S4X8 SolarFurnace
-=================
+SolarFurnace
+============
 
 What is this?
 -------------
@@ -30,7 +30,7 @@ License
 
 This software is released under the open-source MIT license:
 
->Copyright © 2016 Marcos Vives Del Sol
+>Copyright © 2017 Marcos Vives Del Sol <marcos@dracon.es>
 >
 >Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 >
@@ -40,6 +40,10 @@ This software is released under the open-source MIT license:
 
 Changelog
 ---------
+* 14/I/2017 1.6:
+	* Added support for Papercraft and other custom CraftBukkit builds.
+	* Dropped support for versions older than CraftBukkit 1.8.3.
+	* Fixed solar furnaces being added several times to database.
 * 19/VII/2016 1.5.3:
     * REALLY update MetricsLite.
 * 23/VI/2016 1.5.2:
@@ -75,11 +79,6 @@ Changelog
     * Major cleanup in furnace storage, which is now is handled in another class, rather than in the main.
     * The plugin now handles world loading and unloading successfully.
 * 14/V/2013 1.0: First public release
-
-About the author
-----------------
-
-My name is Marcos Vives Del Sol, aka "socram8888". I'm a 18-year-old Spanish guy who likes programming useless stuff that nobody uses. If you want to report a bug, ask for a new feature, or just say hello, you can contact me in my e-mail account <socram8888@gmail.com>.
 
   [Bukkit]: http://www.bukkit.org/
   [Daylight Sensors]: http://www.minecraftwiki.net/wiki/Daylight_Sensor
