@@ -1,5 +1,5 @@
 
-package ovh.socram.bukkit.solarfurnace;
+package es.dracon.bukkit.solarfurnace;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
