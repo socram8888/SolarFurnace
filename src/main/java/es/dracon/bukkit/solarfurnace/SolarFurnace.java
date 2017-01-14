@@ -56,7 +56,7 @@ public class SolarFurnace {
 		throw new InvalidSolarFurnaceException("No solar panel found");
 	};
 
-	public void doTick() throws ChunkNotLoadedException, InvalidSolarFurnaceException, UnsupportedBukkitException {
+	public void doTick() throws ChunkNotLoadedException, InvalidSolarFurnaceException {
 		checkFurnace();
 		Furnace furnace = (Furnace) furnaceBlock.getState();
 		if (furnace.getInventory().getSmelting() == null) return;
@@ -65,7 +65,6 @@ public class SolarFurnace {
 		short remainingTicks = furnace.getBurnTime();
 		if (remainingTicks == 0) {
 			furnace.setBurnTime((short) 2);
-			plugin.getUpdater().setBurning(furnaceBlock);
 		} else {
 			furnace.setBurnTime((short) (remainingTicks + 1));
 		};
