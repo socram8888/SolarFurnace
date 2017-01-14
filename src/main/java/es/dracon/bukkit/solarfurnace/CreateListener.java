@@ -40,7 +40,12 @@ public class CreateListener implements Listener {
 			FurnaceDatabase database = plugin.getFurnaces();
 
 			for (BlockFace face : FURNACE_SIDES) {
-				SolarFurnace solarFurnace = new SolarFurnace(plugin, block.getRelative(face));
+				Block furnaceBlock = block.getRelative(face);
+				if (database.isSolarFurnace(furnaceBlock)) {
+					continue;
+				}
+
+				SolarFurnace solarFurnace = new SolarFurnace(plugin, furnaceBlock);
 				try {
 					solarFurnace.checkWorld();
 					solarFurnace.checkFurnace();
